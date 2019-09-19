@@ -12,8 +12,7 @@ jobs:
         k8s-version: 1.15.1
     - name: Testing
       run: |
-        egrep -c '(vmx|svm)' /proc/cpuinfo
-        cat /sys/hypervisor/properties/capabilities
+        sudo cat /sys/hypervisor/properties/capabilities
         virt-host-validate
         docker-machine-driver-kvm2 version
         minikube config set vm-driver kvm2
