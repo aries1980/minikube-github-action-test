@@ -12,7 +12,11 @@ jobs:
         k8s-version: 1.15.1
     - name: Testing
       run: |
-        minikube config set vm-driver docker-machine-driver-kvm2
+        egrep -c '(vmx|svm)' /proc/cpuinfo
+        cat /sys/hypervisor/properties/capabilities
+        virt-host-validate
+        docker-machine-driver-kvm2 version
+        minikube config set vm-driver kvm2
         minikube config set kubernetes-version v1.15.1
         minikube start
         minikube update-context
