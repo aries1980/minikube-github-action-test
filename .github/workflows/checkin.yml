@@ -17,7 +17,7 @@ jobs:
         sudo usermod -G libvirt -a runner
         newgrp libvirt
         virsh --version
-        curl https://github.com/kubernetes/minikube/releases/download/v0.30.0/docker-machine-driver-kvm2 -o /home/runner/bin/docker-machine-driver-kvm2
+        wget https://github.com/kubernetes/minikube/releases/download/v0.30.0/docker-machine-driver-kvm2 -O /home/runner/bin/docker-machine-driver-kvm2
         chmod +x /home/runner/bin/docker-machine-driver-kvm2
         docker-machine-driver-kvm2
         ls -l /home/runner/bin
