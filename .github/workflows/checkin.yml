@@ -12,11 +12,17 @@ jobs:
         k8s-version: 1.15.1
     - name: Testing
       run: |
-        sudo cat /sys/hypervisor/properties/capabilities
-        virt-host-validate
-        docker-machine-driver-kvm2 version
+        sudo apt update &> apt-update.log
+        sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients &> apt-install.log
+        sudo usermod -G libvirt -a runner
+        newgrp libvirt
+        virsh --version
+        curl https://github.com/kubernetes/minikube/releases/download/v0.30.0/docker-machine-driver-kvm2 -o /home/runner/bin/docker-machine-driver-kvm2
+        chmod +x /home/runner/bin/docker-machine-driver-kvm2
+        docker-machine-driver-kvm2
+        ls -l /home/runner/bin
+        minikube config set disk-size 3GB
         minikube config set vm-driver kvm2
-        minikube config set kubernetes-version v1.15.1
-        minikube start
+        minikube start --alsologtostderr -v=8
         minikube update-context
         kubectl cluster-info
