@@ -12,17 +12,19 @@ jobs:
         k8s-version: 1.15.1
     - name: Testing
       run: |
-        sudo apt update &> apt-update.log
-        sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients &> apt-install.log
-        sudo usermod -G libvirt -a runner
-        newgrp libvirt
-        virsh --version
-        wget https://github.com/kubernetes/minikube/releases/download/v0.30.0/docker-machine-driver-kvm2 -O /home/runner/bin/docker-machine-driver-kvm2
-        chmod +x /home/runner/bin/docker-machine-driver-kvm2
-        docker-machine-driver-kvm2
-        ls -l /home/runner/bin
+        #sudo apt update &> apt-update.log
+        #sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients &> apt-install.log
+        #sudo adduser `id -un` libvirt
+        #sudo su - `id -un`
+        #sudo chmod 777 /var/run/libvirt/libvirt-sock
+        #virt-host-validate
+        #sed -i 's/unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0777"/g' /etc/libvirt/libvirtd.conf
+        #cat /etc/libvirt/libvirtd.conf
+        #id
+        #wget -q https://github.com/kubernetes/minikube/releases/download/v0.30.0/docker-machine-driver-kvm2 -O /home/runner/bin/docker-machine-driver-kvm2
+        #chmod +x /home/runner/bin/docker-machine-driver-kvm2
         minikube config set disk-size 3GB
-        minikube config set vm-driver kvm2
-        minikube start --alsologtostderr -v=8
+        minikube config set vm-driver none
+        sudo /home/runner/bin/minikube start
         minikube update-context
         kubectl cluster-info
